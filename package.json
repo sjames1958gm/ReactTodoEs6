@@ -1,7 +1,7 @@
 {
-  "name": "ReactTimer",
+  "name": "ReactTodo",
   "version": "0.1.0",
-  "description": "React Timer application",
+  "description": "React Todo application",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
