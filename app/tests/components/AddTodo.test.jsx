@@ -11,4 +11,32 @@ describe("AddTodo", () => {
     expect(AddTodo).toExist();
   })
 
+  it ("should get called on valid todo", () => {
+    var spy = expect.createSpy();
+    var addTodo =
+        TestUtils.renderIntoDocument(<AddTodo onNewTodo={spy}/>);
+    var $el = $(ReactDOM.findDOMNode(addTodo));
+
+    addTodo.refs.todo.value = 'New Todo';
+    TestUtils.Simulate.submit($el.find('form')[0]);
+
+    it('should get called', () => {
+      expect(spy).toHaveBeenCalledWith('New Todo');
+    });
+  });
+
+  it ("should not get called on empty input", () => {
+    var spy = expect.createSpy();
+    var addTodo =
+        TestUtils.renderIntoDocument(<AddTodo onNewTodo={spy}/>);
+    var $el = $(ReactDOM.findDOMNode(addTodo));
+
+    addTodo.refs.todo.value = '';
+    TestUtils.Simulate.submit($el.find('form')[0]);
+
+    it('should not get called', () => {
+      expect(spy).toNotHaveBeenCalled();
+    });
+
+  });
 })
