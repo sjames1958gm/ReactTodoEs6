@@ -17,12 +17,10 @@ describe("AddTodo", () => {
         TestUtils.renderIntoDocument(<AddTodo onNewTodo={spy}/>);
     var $el = $(ReactDOM.findDOMNode(addTodo));
 
-    addTodo.refs.todo.value = 'New Todo';
+    addTodo.refs.todoText.value = 'New Todo';
     TestUtils.Simulate.submit($el.find('form')[0]);
 
-    it('should get called', () => {
-      expect(spy).toHaveBeenCalledWith('New Todo');
-    });
+    expect(spy).toHaveBeenCalledWith('New Todo');
   });
 
   it ("should not get called on empty input", () => {
@@ -31,12 +29,10 @@ describe("AddTodo", () => {
         TestUtils.renderIntoDocument(<AddTodo onNewTodo={spy}/>);
     var $el = $(ReactDOM.findDOMNode(addTodo));
 
-    addTodo.refs.todo.value = '';
+    addTodo.refs.todoText.value = '';
     TestUtils.Simulate.submit($el.find('form')[0]);
 
-    it('should not get called', () => {
-      expect(spy).toNotHaveBeenCalled();
-    });
+   expect(spy).toNotHaveBeenCalled();
 
   });
 })

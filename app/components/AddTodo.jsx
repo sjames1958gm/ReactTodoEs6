@@ -5,7 +5,6 @@ var AddTodo = React.createClass({
     onNewTodo: React.PropTypes.func.isRequired
   },
 
-
   onSubmit: function(e) {
     e.preventDefault();
     var todoText = this.refs.todoText.value;
