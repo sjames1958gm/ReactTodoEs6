@@ -10,7 +10,7 @@ var TodoList = React.createClass({
       Todo List
         <ul>
           {todos.map(function(todo, id) {
-            return <Todo key={todo.id} {...todo}/>
+            return <Todo key={todo.id} text={todo.text} id={id + 1}/>
           })}
         </ul>
       </div>
