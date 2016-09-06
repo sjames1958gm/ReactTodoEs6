@@ -15,16 +15,30 @@ describe("TodoApp", () => {
     var todoText = "test todo";
     var todoApp =
         TestUtils.renderIntoDocument(<TodoApp/>);
-    var $el = $(ReactDOM.findDOMNode(todoApp));
 
     todoApp.setState({todos: []});
     todoApp.handleNewTodo(todoText);
 
-    it ('should have one entry', () => {
-      expect(todoApp.getState.todos.length).toBe(1);
-      expect(todoApp.getState.todos[0]).toBe(todoText);
-    })
-
+    expect(todoApp.state.todos.length).toBe(1);
+    expect(todoApp.state.todos[0].text).toBe(todoText);
 
   });
-})
+
+  it ('should toggle completed value when handleToggle called', () => {
+    var todoData = {
+      id: 11, text: "test", completed: false
+    };
+
+    var todoApp =
+        TestUtils.renderIntoDocument(<TodoApp/>);
+
+    todoApp.setState({todos: [todoData]});
+
+    todoApp.handleToggle(11);
+    expect(todoApp.state.todos[0].completed).toBe(true);
+
+    todoApp.handleToggle(11);
+    expect(todoApp.state.todos[0].completed).toBe(false);
+    })
+
+  })
