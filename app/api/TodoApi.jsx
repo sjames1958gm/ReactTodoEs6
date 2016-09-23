@@ -23,5 +23,19 @@ module.exports = {
     else {
       return [];
     }
+  },
+  filterTodos: function(todos, showCompleted, searchText) {
+    var filteredTodos = todos;
+
+    filteredTodos = filteredTodos.filter((todo) => {
+      return !todo.completed || showCompleted;
+    });
+
+    filteredTodos = filteredTodos.filter((todo) => {
+      return todo.text.toLowerCase().indexOf(searchText) !== -1;
+    })
+
+
+    return filteredTodos;
   }
 }
