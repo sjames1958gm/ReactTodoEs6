@@ -24,6 +24,7 @@ module.exports = {
       return [];
     }
   },
+  
   filterTodos: function(todos, showCompleted, searchText) {
     var filteredTodos = todos;
 
@@ -35,6 +36,17 @@ module.exports = {
       return todo.text.toLowerCase().indexOf(searchText) !== -1;
     })
 
+    filteredTodos.sort(function(a, b) {
+      if (a.completed === b.completed) {
+        return 0;
+      } 
+      else if (a.completed) {
+        return 1;
+      }
+      else {
+        return -1;
+      }
+    });
 
     return filteredTodos;
   }
