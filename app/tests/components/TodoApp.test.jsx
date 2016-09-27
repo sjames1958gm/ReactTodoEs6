@@ -21,6 +21,7 @@ describe("TodoApp", () => {
 
     expect(todoApp.state.todos.length).toBe(1);
     expect(todoApp.state.todos[0].text).toBe(todoText);
+    expect(todoApp.state.todos[0].createdAt).toBeA('number');
 
   });
 
@@ -36,9 +37,11 @@ describe("TodoApp", () => {
 
     todoApp.handleToggle(11);
     expect(todoApp.state.todos[0].completed).toBe(true);
+    expect(todoApp.state.todos[0].completedAt).toBeA('number');
 
     todoApp.handleToggle(11);
     expect(todoApp.state.todos[0].completed).toBe(false);
+    expect(todoApp.state.todos[0].completedAt).toBe(undefined);
     })
 
   })
