@@ -12,12 +12,12 @@ describe("TodoList", () => {
     expect(TodoList).toExist();
   })
 
-  it('should render', () => {
+  it('should render a todo item for each todo', () => {
     var todos = [{
-      id:1, text:"item1",
+      id:1, text:"item1", completed: false
     },
     {
-      id:2, text:"item2",
+      id:2, text:"item2", completed: false
     }];
 
     var todoList = TestUtils.renderIntoDocument(
@@ -29,5 +29,20 @@ describe("TodoList", () => {
 
     expect(todosComponents.length).toBe(todos.length);
     
+  });
+
+  it('should render a message when no todos', () => {
+    var todos = [];
+
+    var todoList = TestUtils.renderIntoDocument(
+      <TodoList todos={todos}/>
+    );
+
+    var todosComponents = 
+      TestUtils.scryRenderedComponentsWithType(todoList, Todo);
+    
+    var $el = $(ReactDOM.findDOMNode(todoList));
+
+    expect($el.find('.container__message').length).toBe(1);
   });
 })
