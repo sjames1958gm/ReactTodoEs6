@@ -19,7 +19,7 @@ export var showCompletedReducer = (state = false, action) => {
   }
 };
 
-export var addTodoReducer = (state = [], action) => {
+export var todosReducer = (state = [], action) => {
   switch (action.type) {
     case 'ADD_TODO':
       return [
@@ -31,6 +31,19 @@ export var addTodoReducer = (state = [], action) => {
           createdAt: moment().unix(),
           completedAt: undefined
         }];
+    case 'TOGGLE_TODO':
+      return state.map((t) => {
+        if (t.id != action.id) {
+          return t;
+        }
+        else {
+          var completed = !t.completed;
+          return {...t, 
+            completed: completed,
+            completedAt: completed ? moment().unix() : undefined
+          };
+        }
+      });
     default:
       return state;
   }
