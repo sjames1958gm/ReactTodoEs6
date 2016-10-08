@@ -1,11 +1,14 @@
 var React = require("react");
 var ReactDOM = require("react-dom");
+var {Provider} = require('react-redux');
+var moment = require('moment');
 var expect = require("expect");
 var TestUtils = require("react-addons-test-utils");
 var $ = require("jquery");
 
-var TodoList = require("TodoList");
-var Todo = require("Todo")
+import {configure} from 'configureStore';
+import TodoList from 'TodoList';
+import Todo from "Todo";
 
 describe("TodoList", () => {
   it('should exist', () => {
@@ -14,16 +17,31 @@ describe("TodoList", () => {
 
   it('should render a todo item for each todo', () => {
     var todos = [{
-      id:1, text:"item1", completed: false
+      id:1, 
+      text:"item1", 
+      completed: false,
+      completedAt: undefined,
+      createdAt: moment().unix()
     },
     {
-      id:2, text:"item2", completed: false
+      id:2,
+      text:"item2", 
+      completed: false,
+      completedAt: undefined,
+      createdAt: moment().unix()
     }];
 
-    var todoList = TestUtils.renderIntoDocument(
-      <TodoList todos={todos}/>
+    var store = configure({ todos });
+    
+
+    var provider = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <TodoList/>
+      </Provider>
     );
 
+    var todoList = 
+      TestUtils.scryRenderedComponentsWithType(provider, TodoList)[0];
     var todosComponents = 
       TestUtils.scryRenderedComponentsWithType(todoList, Todo);
 
@@ -32,12 +50,17 @@ describe("TodoList", () => {
   });
 
   it('should render a message when no todos', () => {
+    var store = configure();
     var todos = [];
 
-    var todoList = TestUtils.renderIntoDocument(
-      <TodoList todos={todos}/>
+    var provider = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <TodoList/>
+      </Provider>
     );
 
+    var todoList = 
+      TestUtils.scryRenderedComponentsWithType(provider, TodoList)[0];
     var todosComponents = 
       TestUtils.scryRenderedComponentsWithType(todoList, Todo);
     
