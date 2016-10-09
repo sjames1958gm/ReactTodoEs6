@@ -11,7 +11,7 @@ store.subscribe(() => {
   console.log('New state', store.getState());
 })
 
-store.dispatch(actions.addTodo("test todo"));
+// store.dispatch(actions.addTodo("test todo"));
 
 // Load foundation
 $(document).foundation();

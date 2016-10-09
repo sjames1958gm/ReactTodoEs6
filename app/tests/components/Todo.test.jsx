@@ -4,7 +4,8 @@ var expect = require("expect");
 var TestUtils = require("react-addons-test-utils");
 var $ = require("jquery");
 
-var { Todo } = require("Todo");
+// Import raw component for testing.
+import {Todo} from "Todo";
 
 describe("Todo", () => {
   it('should exist', () => {
