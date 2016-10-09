@@ -13,13 +13,33 @@ describe("actions", () => {
     expect(res).toEqual(action);
   });
 
-    it('should generate add todo action', () => {
+  it('should generate add todo action', () => {
     var action = { 
       type: "ADD_TODO",
       text: "some todo text"
     };
 
     var res = actions.addTodo(action.text);
+
+    expect(res).toEqual(action);
+  });
+
+  it('should generate add todos action', () => {
+    var todos = [
+      { id: 1,
+        text: 'anything', 
+        completed: false,
+        completedAt: undefined,
+        createdAt: 500
+        }
+      ];
+
+    var action = { 
+      type: "ADD_TODOS",
+      todos
+    };
+
+    var res = actions.addTodos(action.todos);
 
     expect(res).toEqual(action);
   });

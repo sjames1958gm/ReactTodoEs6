@@ -110,5 +110,30 @@ describe("Reducers", () => {
 
     })
 
+  it("should add existing todos", () => {
+      var todos = [{
+        id: 234,
+        text: "another todo",
+        completed: false,
+        completedAt: undefined,
+        createdAt: moment().unix()
+      },
+      {
+        id: 123,
+        text: "this todo",
+        completed: false,
+        completedAt: undefined,
+        createdAt: moment().unix()
+      }];
+      var action = {
+        type: "ADD_TODOS",
+        todos
+      };
+
+      var res = reducers.todosReducer(df([]), df(action));
+
+      expect(res.length).toEqual(todos.length);
+      expect(res).toEqual(todos);
+    })
   });
 });
