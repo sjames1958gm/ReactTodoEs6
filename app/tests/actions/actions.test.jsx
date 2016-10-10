@@ -2,7 +2,9 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
 var expect = require("expect");
-var actions = require("actions");
+import firebase, {firebaseRef} from 'app/firebase';
+
+import * as actions from "actions";
 
 var createMockStore = configureMockStore([thunk]);
 
@@ -38,6 +40,7 @@ describe("actions", () => {
   it('should create todo and dispatch ADD_TODO action', (done) => {
     const store = createMockStore({})
     const todoText = "my todo item";
+
     store.dispatch(actions.startAddTodo(todoText)).then(() => {
       const actions = store.getActions();
       expect(actions[0]).toInclude({
@@ -80,14 +83,56 @@ describe("actions", () => {
     expect(res).toEqual(action);
   });
 
-  it('should generate toggle todo action', () => {
+  it('should generate update todo action', () => {
     var action = { 
-      type: "TOGGLE_TODO",
-      id: 2
+      type: "UPDATE_TODO",
+      id: 2,
+      updates: {
+        completed: true,
+        completedAt: 12345
+      }
     };
 
-    var res = actions.toggleTodo(action.id);
+    var res = actions.updateTodo(action.id, action.updates);
 
     expect(res).toEqual(action);
   });
+   
+  describe('Test with firebase todos', () => {
+    var testTodoRef;
+
+    beforeEach((done) => {
+      testTodoRef = firebaseRef.child('todos').push();
+      testTodoRef.set({
+        text: 'anything', 
+        completed: false,
+        createdAt: 500
+      }).then(() => done())
+    })
+
+    afterEach((done) => {
+      testTodoRef.remove().then(() => done());
+    });
+
+    it('should toggle todo and dispatch UPDATE_TODO action', (done) => {
+      const store = createMockStore({});
+      const action = actions.startToggleTodo(testTodoRef.key, true);
+
+      store.dispatch(action).then(() => {
+        const actions = store.getActions();
+        
+        expect(actions[0]).toInclude({
+          type: 'UPDATE_TODO',
+          id: testTodoRef.key,
+        });
+        expect(actions[0].updates).toInclude({
+          completed: true,
+        });
+        expect(actions[0].updates.completedAt).toExist();
+
+        done();
+      }).catch(done);
+
+    })
+  })
 })
