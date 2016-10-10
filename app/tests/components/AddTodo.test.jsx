@@ -6,6 +6,7 @@ var $ = require("jquery");
 
 // Import raw component for testing.
 import {AddTodo} from "AddTodo";
+import * as actions from 'actions'; 
 
 describe("AddTodo", () => {
   it('should exist', () => {
@@ -15,10 +16,7 @@ describe("AddTodo", () => {
   it ("should dispatch on valid todo", () => {
     var todoText = 'New Todo';
     var spy = expect.createSpy();
-    var action = {
-      type: 'ADD_TODO',
-      text: todoText
-    };
+    var action = actions.startAddTodo(todoText);
 
     var addTodo = TestUtils.renderIntoDocument(
         <AddTodo dispatch={spy}/>
