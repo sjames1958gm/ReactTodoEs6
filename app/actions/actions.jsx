@@ -32,6 +32,21 @@ export var addTodos = (todos) => ({
   type: 'ADD_TODOS', todos
 });
 
+export var startAddTodos = () => {
+  return (dispatch, getState) => {
+    var todosRef = firebaseRef.child(`todos`);
+
+    return todosRef.once('value').then((snapshot) => {
+      var todosObj = snapshot.val() || {};
+      var todos = [];
+      for (var key in todosObj) {
+        todos.push({id : key, ...todosObj[key]});
+      }
+      dispatch(addTodos(todos));
+    });
+  };
+};
+
 export var toggleShowCompleted = () => ({
   type: 'TOGGLE_SHOW_COMPLETED'
 });

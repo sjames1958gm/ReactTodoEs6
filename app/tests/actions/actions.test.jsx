@@ -100,15 +100,21 @@ describe("actions", () => {
    
   describe('Test with firebase todos', () => {
     var testTodoRef;
+    var testTodo = {
+          text: 'anything', 
+          completed: false,
+          createdAt: 500
+        };
 
     beforeEach((done) => {
-      testTodoRef = firebaseRef.child('todos').push();
-      testTodoRef.set({
-        text: 'anything', 
-        completed: false,
-        createdAt: 500
-      }).then(() => done())
-    })
+      var todosRef = firebaseRef.child('todos');
+      todosRef.remove().then(() => {
+        testTodoRef = firebaseRef.child('todos').push();
+        return testTodoRef.set(testTodo);
+      })
+      .then(() => done())
+      .catch(done); 
+    });
 
     afterEach((done) => {
       testTodoRef.remove().then(() => done());
@@ -120,7 +126,7 @@ describe("actions", () => {
 
       store.dispatch(action).then(() => {
         const actions = store.getActions();
-        
+
         expect(actions[0]).toInclude({
           type: 'UPDATE_TODO',
           id: testTodoRef.key,
@@ -133,6 +139,24 @@ describe("actions", () => {
         done();
       }).catch(done);
 
-    })
-  })
-})
+    });
+
+    it('should load todos and dispatch ADD_TODOS action', (done) => {
+      const store = createMockStore({});
+      const action = actions.startAddTodos();
+      console.log(action);
+
+      store.dispatch(action).then(() => {
+        const actions = store.getActions();
+      console.log(actions);
+
+        expect(actions[0].type).toInclude('ADD_TODOS');
+        expect(actions[0].todos.length).toEqual(1);
+        expect(actions[0].todos[0].text).toEqual(testTodo.text);
+
+        done();
+      }).catch(done);
+
+    });
+  });
+});
