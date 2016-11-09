@@ -144,4 +144,29 @@ describe("Reducers", () => {
       expect(res).toEqual(todos);
     })
   });
+
+  describe("authReducer", () => {
+    it('it should have uid in state', () => {
+      var state = {uid: "1234432112434"};
+      var action = { 
+        type: "LOGIN",
+        uid: "1234432112434"
+      };
+
+      var res = reducers.authReducer(df({}), df(action));
+
+      expect(res).toEqual(state);
+    });
+
+    it('it should have empty state', () => {
+      var state = {};
+      var action = { 
+        type: "LOGOUT"
+      };
+
+      var res = reducers.authReducer(df({uid: "1234432112434"}), df(action));
+
+      expect(res).toEqual(state);
+    });
+  });
 });
