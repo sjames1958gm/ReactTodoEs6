@@ -13,6 +13,8 @@ import router from 'app/router'
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
     store.dispatch(actions.login(user.uid));
+    console.log("here");
+    store.dispatch(actions.startAddTodos());
     hashHistory.push('/todos');
   }
   else {
@@ -20,8 +22,6 @@ firebase.auth().onAuthStateChanged((user) => {
     hashHistory.push('/');
   }
 });
-
-store.dispatch(actions.startAddTodos());
 
 // Load foundation
 $(document).foundation();
