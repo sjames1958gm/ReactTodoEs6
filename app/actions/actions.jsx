@@ -62,7 +62,7 @@ export var updateTodo = (id, updates) => ({
 export var startToggleTodo = (id, completed) => {
 
   return (dispatch, getState) => {
-    var uid = getState.auth.uid;
+    var uid = getState().auth.uid;
     var todoRef = firebaseRef.child(`user/${uid}/todos/${id}`);
     var updates = {
       completed,
