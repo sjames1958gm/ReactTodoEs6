@@ -118,7 +118,7 @@ describe("Reducers", () => {
       expect(res[1].text).toEqual(state[1].text);
     })
 
-  it("should add existing todos", () => {
+    it("should add existing todos", () => {
       var todos = [{
         id: 234,
         text: "another todo",
@@ -142,6 +142,30 @@ describe("Reducers", () => {
 
       expect(res.length).toEqual(todos.length);
       expect(res).toEqual(todos);
+    })
+
+    it("should clear state todos", () => {
+      var todos = [{
+        id: 234,
+        text: "another todo",
+        completed: false,
+        completedAt: undefined,
+        createdAt: moment().unix()
+      },
+      {
+        id: 123,
+        text: "this todo",
+        completed: false,
+        completedAt: undefined,
+        createdAt: moment().unix()
+      }];
+      var action = {
+        type: "LOGOUT"
+      };
+
+      var res = reducers.todosReducer(df(todos), df(action));
+
+      expect(res.length).toEqual(0);
     })
   });
 
