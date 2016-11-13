@@ -11,7 +11,7 @@ describe("TodoApi", () => {
     var todos = [
       { id: 11, text: "Some text", completed: true },
       { id: 22, text: "this one", completed: false },
-      { id: 33, text: "Some more text", completed: true }
+      { id: 33, text: "some more text", completed: true }
     ];
 
     it("should return all todos when showCompleted", () => {
@@ -25,9 +25,14 @@ describe("TodoApi", () => {
 
     });
 
-    it('should return a todo with search text', () => {
+    it('should return a todo with search text (todo text uppercase)', () => {
       var filteredTodos = TodoApi.filterTodos(todos, true, 'some');
         expect(filteredTodos.length).toBe(2);
+    });
+
+    it('should return a todo with search text (search text Uppercase)', () => {
+      var filteredTodos = TodoApi.filterTodos(todos, true, 'This');
+        expect(filteredTodos.length).toBe(1);
     });
 
     it("should sort todos with not completed first", () => {
